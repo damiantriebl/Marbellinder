@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, Button, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, Button, TouchableOpacity, StyleSheet, SafeAreaView, FlatList } from 'react-native'
+import getPlayers from '../utils/getPlayers'
 
 //When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
 // We can pass params: navigation.navigate('User', {id:8})
@@ -7,30 +8,39 @@ import { Text, View, Button, TouchableOpacity, StyleSheet } from 'react-native'
 
 const Home = ({ navigation }) => {
     const [players, setPlayers] = useState([])
+    const [error, setError] = useState('')
     const [isLoading, setLoading] = useState(true);
-  
-    const getPlayers = async () => {
-       try {
-        const response = await fetch('http://localhost:3000/players');
-        const json = await response.json();
-        console.log(json)
-        setPlayers(json);
-      } catch (error) {
-        console.error('Dtcon - error',error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  
-    useEffect(() => {
-      getPlayers();
-    }, []);   
 
-    return (        
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet' }}>
-            {players.map((player)=>{
-               return <li>{player.name}</li>
-            })}
+    const getData = async () => {
+        const data = await getPlayers()
+        if (data.errorMessage) {
+            console.log("WWWW", data)
+            //do something to show an error message
+            setError(data.errorMessage)
+        }
+        setPlayers(data);
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const renderItem = ({ item }) => {
+        return (
+            <View style={styles.item}>
+                <Text style={styles.name}>{item.name}</Text>
+            </View>
+        )
+    }
+
+
+    return (
+        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet' }}>
+            <FlatList
+                data={players}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+            />
             <Text>Home Screen</Text>
             <Button
                 color='green'
@@ -45,7 +55,7 @@ const Home = ({ navigation }) => {
                     It's a kind of Magic
                 </Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -55,7 +65,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#DDDDDD",
         padding: 10,
         borderRadius: 200
-    }
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    name: {
+        fontSize: 32,
+    },
 });
 
 export default Home
