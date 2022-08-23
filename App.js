@@ -1,5 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button,  LogoTitle } from 'react-native';
+
 import Home from './screens/Home'
 import User from './screens/User'
 // NavigationContainer is a component which manages our navigation tree and contains the navigation state. 

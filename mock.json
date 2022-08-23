@@ -1,0 +1,29 @@
+{
+  "players": [
+    {
+      "name": "pepe",
+      "age": 38,
+      "thumb": "pepe.webp"
+    },
+    {
+      "name": "alberto",
+      "age": 27,
+      "thumb": "alberto.webp"
+    },
+    {
+      "name": "jose",
+      "age": 29,
+      "thumb": "jose.webp"
+    },
+    {
+      "name": "juana",
+      "age": 35,
+      "thumb": "juana.webp"
+    },
+    {
+      "name": "marta",
+      "age": 35,
+      "thumb": "marta.webp"
+    }
+  ]
+}

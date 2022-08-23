@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, Button, TouchableOpacity, StyleSheet } from 'react-native'
 
 //When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
@@ -6,8 +6,31 @@ import { Text, View, Button, TouchableOpacity, StyleSheet } from 'react-native'
 //You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
 
 const Home = ({ navigation }) => {
-    return (
+    const [players, setPlayers] = useState([])
+    const [isLoading, setLoading] = useState(true);
+  
+    const getPlayers = async () => {
+       try {
+        const response = await fetch('http://localhost:3000/players');
+        const json = await response.json();
+        console.log(json)
+        setPlayers(json);
+      } catch (error) {
+        console.error('Dtcon - error',error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    useEffect(() => {
+      getPlayers();
+    }, []);   
+
+    return (        
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet' }}>
+            {players.map((player)=>{
+               return <li>{player.name}</li>
+            })}
             <Text>Home Screen</Text>
             <Button
                 color='green'
