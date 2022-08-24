@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button,  LogoTitle } from 'react-native';
+import { Button, LogoTitle } from 'react-native';
 
 import Home from './screens/Home'
-import User from './screens/User'
+import PlayersList from './screens/PlayersList'
 // NavigationContainer is a component which manages our navigation tree and contains the navigation state. 
 // This component must wrap all navigators structure. Usually, we'd render this component at the root of our app.
 
@@ -14,7 +14,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='User' component={User} />
+        <Stack.Screen name='PlayersList' component={PlayersList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

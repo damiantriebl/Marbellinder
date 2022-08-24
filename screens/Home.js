@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { Text, View, Button, TouchableOpacity, StyleSheet, SafeAreaView, FlatList } from 'react-native'
-import getPlayers from '../utils/getPlayers'
+import React, { useEffect, useState, useCallback } from 'react'
+import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
+import getMatches from '../utils/getMatches'
+import { useFocusEffect } from '@react-navigation/native';
 
 //When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
 // We can pass params: navigation.navigate('User', {id:8})
 //You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
 
 const Home = ({ navigation }) => {
-    const [players, setPlayers] = useState([])
+    const [matches, setMatches] = useState([])
     const [error, setError] = useState('')
-    const [isLoading, setLoading] = useState(true);
 
     const getData = async () => {
-        const data = await getPlayers()
+        const data = await getMatches()
         if (data.errorMessage) {
-            console.log("WWWW", data)
             //do something to show an error message
             setError(data.errorMessage)
         }
-        setPlayers(data);
+        setMatches(data);
     }
 
-    useEffect(() => {
-        getData();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getData();
+        }, [])
+    );
 
     const renderItem = ({ item }) => {
         return (
@@ -35,27 +36,22 @@ const Home = ({ navigation }) => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet', padding: 100 }}>
+            <Text>My Matches</Text>
             <FlatList
-                data={players}
+                data={matches}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
-            <Text>Home Screen</Text>
-            <Button
-                color='green'
-                title="Go to User Screen"
-                onPress={() => navigation.navigate('User')}
-            />
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate('User', { id: 8 })}
+                onPress={() => navigation.navigate('PlayersList', { id: 8 })}
             >
                 <Text>
                     It's a kind of Magic
                 </Text>
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     )
 }
 

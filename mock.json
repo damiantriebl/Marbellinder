@@ -4,31 +4,36 @@
       "id": 1,
       "name": "pepe",
       "age": 38,
-      "thumb": "pepe.webp"
+      "thumb": "pepe.webp",
+      "isMatch": true
     },
     {
       "id": 2,
       "name": "alberto",
       "age": 27,
-      "thumb": "alberto.webp"
+      "thumb": "alberto.webp",
+      "isMatch": false
     },
     {
       "id": 3,
       "name": "jose",
       "age": 29,
-      "thumb": "jose.webp"
+      "thumb": "jose.webp",
+      "isMatch": false
     },
     {
       "id": 4,
       "name": "juana",
       "age": 35,
-      "thumb": "juana.webp"
+      "thumb": "juana.webp",
+      "isMatch": false
     },
     {
       "id": 5,
       "name": "marta",
       "age": 35,
-      "thumb": "marta.webp"
+      "thumb": "marta.webp",
+      "isMatch": false
     }
   ]
 }
