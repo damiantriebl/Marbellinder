@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
 import getPlayers from '../utils/getPlayers'
 import SwipeGesture from '../Common/swipeGesture';
+import updateMatch from '../utils/updateMatch';
 //When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
 // We can pass params: navigation.navigate('User', {id:8})
 //You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
@@ -11,10 +12,21 @@ const PlayersList = ({ navigation }) => {
     const [error, setError] = useState('')
     const [isLoading, setLoading] = useState(true);
 
+    const addMatch = async (id) => {
+        const newMatch = await updateMatch(id, true)
+        if (newMatch.errorMessage) {
+            //manage error
+            console.log(newMatch.errorMessage)
+        }
+        const listPlayers = players.filter(player => player.id !== id)
+        setPlayers(listPlayers)
+    }
 
-    const onSwipePerformed = (action) => {
+    const onSwipePerformed = async (action, id) => {
+        console.log("ID", id)
         switch (action) {
             case 'left': {
+                await addMatch(id)
                 console.log('left Swipe performed');
                 break;
             }
@@ -44,7 +56,7 @@ const PlayersList = ({ navigation }) => {
 
     const renderItem = ({ item }) => {
         return (
-            <SwipeGesture onSwipePerformed={onSwipePerformed}>
+            <SwipeGesture onSwipePerformed={onSwipePerformed} itemId={item.id}>
                 <Text style={styles.name}>{item.name}</Text>
             </SwipeGesture>
         )
