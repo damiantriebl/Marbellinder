@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import {
   View,
   Animated,
@@ -7,8 +7,10 @@ import {
 } from 'react-native';
 
 /// DOCU https://reactnative.dev/docs/panresponder
+
 const SwipeGesture = ({children, onSwipePerformed}) => { 
     const pan = useRef(new Animated.ValueXY()).current;
+    const [y, setY] = useState(0)
  
   const panResponder = useRef(
     PanResponder.create({
@@ -41,7 +43,7 @@ const SwipeGesture = ({children, onSwipePerformed}) => {
     })).current;
 
   return (
-    <Animated.View {...panResponder.panHandlers} style={{...styles.gestureStyle, transform: [{ translateX: pan.x }]}}>
+    <Animated.View {...panResponder.panHandlers} style={{...styles.gestureStyle, transform: [{ translateX: pan.x , translateY: pan.y }]}}>
       <View>{children}</View>
     </Animated.View>
   )
