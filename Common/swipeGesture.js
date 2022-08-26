@@ -8,16 +8,13 @@ import {
 
 /// DOCU https://reactnative.dev/docs/panresponder
 
-const SwipeGesture = ({children, onSwipePerformed}) => { 
+const SwipeGesture = ({children, itemId,  onSwipePerformed}) => { 
     const pan = useRef(new Animated.ValueXY()).current;
-    const [y, setY] = useState(0)
- 
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
-        console.log('pan responder')
         pan.setOffset({
           x: pan.x._value,
         });
@@ -33,7 +30,7 @@ const SwipeGesture = ({children, onSwipePerformed}) => {
       onPanResponderRelease: (evt, gestureState) => {
         const x = gestureState.dx;
         if (x >= 0) {
-          onSwipePerformed('right', itemId)
+          onSwipePerformed('right',itemId)
         }
         else {
           onSwipePerformed('left', itemId)
@@ -43,7 +40,7 @@ const SwipeGesture = ({children, onSwipePerformed}) => {
     })).current;
 
   return (
-    <Animated.View {...panResponder.panHandlers} style={{...styles.gestureStyle, transform: [{ translateX: pan.x , translateY: pan.y }]}}>
+    <Animated.View {...panResponder.panHandlers}  style={{...styles.gestureStyle, transform: [{ translateX: pan.x  }]}}>
       <View>{children}</View>
     </Animated.View>
   )

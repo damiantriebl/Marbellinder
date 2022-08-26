@@ -12,8 +12,8 @@ const PlayersList = ({ navigation }) => {
     const [error, setError] = useState('')
     const [isLoading, setLoading] = useState(true);
 
-    const addMatch = async (id) => {
-        const newMatch = await updateMatch(id, true)
+    const updateElementMatch = async (id, selector) => {
+        const newMatch = await updateMatch(id, selector)
         if (newMatch.errorMessage) {
             //manage error
             console.log(newMatch.errorMessage)
@@ -26,11 +26,12 @@ const PlayersList = ({ navigation }) => {
         console.log("ID", id)
         switch (action) {
             case 'left': {
-                await addMatch(id)
+                await updateElementMatch(id, false)
                 console.log('left Swipe performed');
                 break;
             }
             case 'right': {
+                updateElementMatch(id , true)
                 console.log('right Swipe performed');
                 break;
             }
@@ -73,7 +74,6 @@ const PlayersList = ({ navigation }) => {
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
-            {console.log(players[0])}
         </View>
     )
 }
