@@ -12,7 +12,7 @@
       "name": "alberto",
       "age": 27,
       "thumb": "alberto.webp",
-      "isMatch": false
+      "isMatch": true
     },
     {
       "id": 3,
@@ -26,7 +26,7 @@
       "name": "juana",
       "age": 35,
       "thumb": "juana.webp",
-      "isMatch": false
+      "isMatch": true
     },
     {
       "id": 5,

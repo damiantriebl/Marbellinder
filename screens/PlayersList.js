@@ -1,16 +1,48 @@
-import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Card, Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
 import getPlayers from '../utils/getPlayers'
+import SwipeGesture from '../Common/swipeGesture';
+import updateMatch from '../utils/updateMatch';
+//When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
+// We can pass params: navigation.navigate('User', {id:8})
+//You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
 
-const PlayersList = ({ navigation, route }) => {
+const PlayersList = ({ navigation }) => {
     const [players, setPlayers] = useState([])
     const [error, setError] = useState('')
     const [isLoading, setLoading] = useState(true);
 
+    const addMatch = async (id) => {
+        const newMatch = await updateMatch(id, true)
+        if (newMatch.errorMessage) {
+            //manage error
+            console.log(newMatch.errorMessage)
+        }
+        const listPlayers = players.filter(player => player.id !== id)
+        setPlayers(listPlayers)
+    }
+
+    const onSwipePerformed = async (action, id) => {
+        console.log("ID", id)
+        switch (action) {
+            case 'left': {
+                await addMatch(id)
+                console.log('left Swipe performed');
+                break;
+            }
+            case 'right': {
+                console.log('right Swipe performed');
+                break;
+            }
+            default: {
+                console.log('Undeteceted action');
+            }
+        }
+    }
+
     const getData = async () => {
         const data = await getPlayers()
         if (data.errorMessage) {
-            console.log("WWWW", data)
             //do something to show an error message
             setError(data.errorMessage)
         }
@@ -21,24 +53,31 @@ const PlayersList = ({ navigation, route }) => {
         getData();
     }, []);
 
+
     const renderItem = ({ item }) => {
         return (
-            <View style={styles.item}>
+            <SwipeGesture onSwipePerformed={onSwipePerformed} itemId={item.id}>
                 <Text style={styles.name}>{item.name}</Text>
-            </View>
+            </SwipeGesture>
         )
     }
 
+    if (!players) {
+        return <Text>Cargando</Text>
+    }
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 50 }}>
-            <FlatList
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet', padding: 1 }}>
+            <Text>Players</Text>
+            <FlatList style={{ width: "100%" }}
                 data={players}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
+            {console.log(players[0])}
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     button: {

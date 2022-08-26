@@ -28,17 +28,17 @@ const SwipeGesture = ({children, onSwipePerformed}) => {
           null,
           { dx: pan.x }
         ],
-        {useNativeDriver: false}
+        { useNativeDriver: false }
       ),
       onPanResponderRelease: (evt, gestureState) => {
         const x = gestureState.dx;
-          if (x >= 0) {
-            onSwipePerformed('right')
-          }
-          else {
-            onSwipePerformed('left')
-          }      
-       
+        if (x >= 0) {
+          onSwipePerformed('right', itemId)
+        }
+        else {
+          onSwipePerformed('left', itemId)
+        }
+
       }
     })).current;
 
@@ -52,10 +52,10 @@ const SwipeGesture = ({children, onSwipePerformed}) => {
 export default SwipeGesture;
 
 const styles = StyleSheet.create({
-    gestureStyle: {
-        alignItems: "center",
-        backgroundColor: "#DDDDDD",
-        padding: 10,
-        borderRadius: 200
-    }
+  gestureStyle: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    borderRadius: 200
+  }
 })
