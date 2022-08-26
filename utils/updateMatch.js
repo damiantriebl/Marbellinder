@@ -8,7 +8,7 @@ const updateMatch = async (id, updateElementMatch) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ isMatch: updateElementMatch, isSelected: true })
+            body: JSON.stringify({ isMatch: updateElementMatch })
         });
         return response.json();
     } catch (error) {

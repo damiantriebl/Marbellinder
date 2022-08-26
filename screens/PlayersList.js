@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
+import React, { useCallback, useState, useReducer } from 'react'
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
 import getPlayers from '../utils/getPlayers'
 import SwipeGesture from '../Common/swipeGesture';
 import updateMatch from '../utils/updateMatch';
@@ -7,10 +8,35 @@ import updateMatch from '../utils/updateMatch';
 // We can pass params: navigation.navigate('User', {id:8})
 //You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
 
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'remove':
+            const listPlayers = state.players.filter(player => player.id !== action.payload)
+            return { players: listPlayers }
+        case 'add':
+            return { players: action.payload }
+        default:
+            return state
+    }
+}
+
 const PlayersList = ({ navigation }) => {
-    const [players, setPlayers] = useState([])
+    const [state, dispatch] = useReducer(reducer, { players: [] });
     const [error, setError] = useState('')
-    const [isLoading, setLoading] = useState(true);
+
+    const getData = async () => {
+        const data = await getPlayers()
+        if (data.errorMessage) {
+            setError(data.errorMessage)
+        }
+        dispatch({ type: 'add', payload: data })
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getData();
+        }, [])
+    );
 
     const updateElementMatch = async (id, selector) => {
         const newMatch = await updateMatch(id, selector)
@@ -18,20 +44,18 @@ const PlayersList = ({ navigation }) => {
             //manage error
             console.log(newMatch.errorMessage)
         }
-        const listPlayers = players.filter(player => player.id !== id)
-        setPlayers(listPlayers)
+        dispatch({ type: 'remove', payload: id })
     }
 
     const onSwipePerformed = async (action, id) => {
-        console.log("ID", id)
         switch (action) {
             case 'left': {
-                await updateElementMatch(id, false)
+                dispatch({ type: 'remove', payload: id })
                 console.log('left Swipe performed');
                 break;
             }
             case 'right': {
-                updateElementMatch(id , true)
+                updateElementMatch(id, true)
                 console.log('right Swipe performed');
                 break;
             }
@@ -41,20 +65,6 @@ const PlayersList = ({ navigation }) => {
         }
     }
 
-    const getData = async () => {
-        const data = await getPlayers()
-        if (data.errorMessage) {
-            //do something to show an error message
-            setError(data.errorMessage)
-        }
-        setPlayers(data);
-    }
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-
     const renderItem = ({ item }) => {
         return (
             <SwipeGesture onSwipePerformed={onSwipePerformed} itemId={item.id}>
@@ -63,28 +73,43 @@ const PlayersList = ({ navigation }) => {
         )
     }
 
-    if (!players) {
+    if (!state.players.length) {
         return <Text>Cargando</Text>
     }
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'violet', padding: 1 }}>
+        <View style={styles.container}>
             <Text>Players</Text>
             <FlatList style={{ width: "100%" }}
-                data={players}
+                data={state.players}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Profile')}
+            >
+                <Text>
+                    Profile
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'violet',
+        padding: 50
+    },
     button: {
         alignItems: "center",
         backgroundColor: "#DDDDDD",
         padding: 10,
-        borderRadius: 200
+        borderRadius: 200,
     },
     item: {
         backgroundColor: '#f9c2ff',

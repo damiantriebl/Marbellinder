@@ -5,40 +5,35 @@
       "name": "pepe",
       "age": 38,
       "thumb": "pepe.webp",
-      "isMatch": false,
-      "isSelected": false
+      "isMatch": true
     },
     {
       "id": 2,
       "name": "alberto",
       "age": 27,
       "thumb": "alberto.webp",
-      "isMatch": false,
-      "isSelected": false
+      "isMatch": false
     },
     {
       "id": 3,
       "name": "jose",
       "age": 29,
       "thumb": "jose.webp",
-      "isMatch": true,
-      "isSelected": true
+      "isMatch": true
     },
     {
       "id": 4,
       "name": "juana",
       "age": 35,
       "thumb": "juana.webp",
-      "isMatch": false,
-      "isSelected": true
+      "isMatch": true
     },
     {
       "id": 5,
       "name": "marta",
       "age": 35,
       "thumb": "marta.webp",
-      "isMatch": true,
-      "isSelected": true
+      "isMatch": true
     }
   ]
 }

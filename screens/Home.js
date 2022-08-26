@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native';
 import getMatches from '../utils/getMatches'
 
 const Home = ({ navigation }) => {
@@ -16,11 +15,9 @@ const Home = ({ navigation }) => {
         setMatches(data);
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            getData();
-        }, [])
-    );
+    useEffect(() => {
+        getData();
+    }, []);
 
     const renderItem = ({ item }) => {
         return (
@@ -31,7 +28,7 @@ const Home = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 50 }}>
+        <View style={styles.container}>
             <FlatList
                 data={matches}
                 renderItem={renderItem}
@@ -50,6 +47,13 @@ const Home = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'violet',
+        padding: 50
+    },
     button: {
         alignItems: "center",
         backgroundColor: "#DDDDDD",
