@@ -40,7 +40,8 @@ const SwipeGesture = ({children, itemId,  onSwipePerformed}) => {
     })).current;
 
   return (
-    <Animated.View {...panResponder.panHandlers}  style={{...styles.gestureStyle, transform: [{ translateX: pan.x  }]}}>
+    <Animated.View {...panResponder.panHandlers}  style={{...styles.gestureStyle, transform: [{ translateX: pan.x},{rotateZ: pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}) }]}}>
+      {console.log('paneo', `deg` )}
       <View>{children}</View>
     </Animated.View>
   )

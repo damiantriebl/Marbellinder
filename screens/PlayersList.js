@@ -74,7 +74,18 @@ const PlayersList = ({ navigation }) => {
     }
 
     if (!state.players.length) {
-        return <Text>Cargando</Text>
+        return (
+            <View>
+                <Text>No more elements!</Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('Profile')}
+                >
+                    <Text>
+                        Profile
+                    </Text>
+                </TouchableOpacity>
+            </View>)
     }
     return (
         <View style={styles.container}>
