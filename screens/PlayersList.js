@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useReducer } from 'react'
-import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, list, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native';
 import getPlayers from '../utils/getPlayers'
 import SwipeGesture from '../Common/swipeGesture';
 import updateMatch from '../utils/updateMatch';
+import Card from '../Common/Card';
 //When we use navigation.navigate() we can only navigate to screens that have been defined in the navigator
 // We can pass params: navigation.navigate('User', {id:8})
 //You can also think of the route object like a URL. Params shouldn't contain data that you think should not be in the URL
@@ -23,6 +24,9 @@ const reducer = (state, action) => {
 const PlayersList = ({ navigation }) => {
     const [state, dispatch] = useReducer(reducer, { players: [] });
     const [error, setError] = useState('')
+    const window = useWindowDimensions();
+
+
 
     const getData = async () => {
         const data = await getPlayers()
@@ -65,41 +69,41 @@ const PlayersList = ({ navigation }) => {
         }
     }
 
-    const renderItem = ({ item }) => {
+    const RenderItem = ({ item }) => {
         return (
             <SwipeGesture onSwipePerformed={onSwipePerformed} itemId={item.id}>
-                <Text style={styles.name}>{item.name}</Text>
+                <Card item={item} />
             </SwipeGesture>
         )
     }
 
     if (!state.players.length) {
         return (
-            <View>
-                <Text>No more elements!</Text>
+            <View style={styles.container}>
+                <Text style={styles.noMore}>
+                    No more elements!</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigation.navigate('Profile')}
                 >
-                    <Text>
+                    <Text style={styles.buttonText}>
                         Profile
                     </Text>
                 </TouchableOpacity>
             </View>)
     }
     return (
-        <View style={styles.container}>
-            <Text>Players</Text>
-            <FlatList style={{ width: "100%" }}
-                data={state.players}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-            />
+        <View style={styles.container}>  
+            <View style={styles.list}>
+                {state.players.map((player) => {
+                    return <RenderItem key={player.id} item={player} />
+                })}
+            </View>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Profile')}
             >
-                <Text>
+                <Text style={styles.buttonText}>
                     Profile
                 </Text>
             </TouchableOpacity>
@@ -109,21 +113,33 @@ const PlayersList = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
+    noMore: {
+        padding: 30,
+        color: "#000048",
+    },
+    list: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'violet',
-        padding: 50
+        backgroundColor: '#fff',
+        padding: 10,
+        height: window.height
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#4278ca",
         padding: 10,
-        borderRadius: 200,
+        borderRadius: 10,        
+    },
+    buttonText: {
+        color: "white",
+        fontSize: 20
     },
     item: {
-        backgroundColor: '#f9c2ff',
+        backgroundColor: '#fff',
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,

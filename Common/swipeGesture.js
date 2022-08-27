@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import {
   View,
   Animated,
@@ -40,8 +40,7 @@ const SwipeGesture = ({children, itemId,  onSwipePerformed}) => {
     })).current;
 
   return (
-    <Animated.View {...panResponder.panHandlers}  style={{...styles.gestureStyle, transform: [{ translateX: pan.x},{rotateZ: pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}) }]}}>
-      {console.log('paneo', `deg` )}
+    <Animated.View {...panResponder.panHandlers}  style={{ ...styles.shadowProp,...styles.card, transform: [{ translateX: pan.x},{rotateZ: pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}) }]}}>
       <View>{children}</View>
     </Animated.View>
   )
@@ -50,10 +49,19 @@ const SwipeGesture = ({children, itemId,  onSwipePerformed}) => {
 export default SwipeGesture;
 
 const styles = StyleSheet.create({
-  gestureStyle: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    borderRadius: 200
-  }
+
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingVertical: 45,
+    paddingHorizontal: 25,
+    width: '100%',
+    marginBottom: -590,
+    height:600,
+    textAlign: "center"
+},
+shadowProp: {
+  elevation: 12,
+  shadowColor: '#01132E',
+},
 })

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import Contact from '../Common/Contact'
 import getMatches from '../utils/getMatches'
 
 const Home = ({ navigation }) => {
@@ -22,7 +23,7 @@ const Home = ({ navigation }) => {
     const renderItem = ({ item }) => {
         return (
             <View style={styles.item}>
-                <Text style={styles.name}>{item.name}</Text>
+                <Contact style={styles.name} match={item}/>
             </View>
         )
     }
@@ -38,7 +39,7 @@ const Home = ({ navigation }) => {
                 style={styles.button}
                 onPress={() => navigation.navigate('PlayersList')}
             >
-                <Text>
+                <Text style={styles.buttonText}>
                     It's a kind of Magic
                 </Text>
             </TouchableOpacity>
@@ -51,18 +52,22 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'violet',
-        padding: 50
+        backgroundColor: '#fff',
+        padding: 10,
+        height: window.height
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#4278ca",
         padding: 10,
-        borderRadius: 200
+        borderRadius: 10,        
+    },
+    buttonText: {
+        color: "white",
+        fontSize: 20
     },
     item: {
         backgroundColor: '#f9c2ff',
-        padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
     },
