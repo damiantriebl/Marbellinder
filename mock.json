@@ -1,0 +1,39 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "Pepe",
+      "age": 38,
+      "thumb": "https://firebasestorage.googleapis.com/v0/b/marbellinder.appspot.com/o/pepe.webp?alt=media&token=35828d57-7d80-4c16-9397-df70c6c25464",
+      "isMatch": true
+    },
+    {
+      "id": 2,
+      "name": "Alberto",
+      "age": 27,
+      "thumb": "https://firebasestorage.googleapis.com/v0/b/marbellinder.appspot.com/o/alberto.webp?alt=media&token=457a9ae7-c492-41f9-8974-f13d3f53f7e4",
+      "isMatch": true
+    },
+    {
+      "id": 3,
+      "name": "Jose",
+      "age": 29,
+      "thumb": "https://firebasestorage.googleapis.com/v0/b/marbellinder.appspot.com/o/jose.webp?alt=media&token=e5ecf571-52d0-42d5-90a9-4a5bb5c91ed0",
+      "isMatch": true
+    },
+    {
+      "id": 4,
+      "name": "Juana",
+      "age": 35,
+      "thumb": "https://firebasestorage.googleapis.com/v0/b/marbellinder.appspot.com/o/juana.webp?alt=media&token=a7600293-0a7f-4b62-b876-6bfe72fb5cfa",
+      "isMatch": true
+    },
+    {
+      "id": 5,
+      "name": "Marta",
+      "age": 35,
+      "thumb": "https://firebasestorage.googleapis.com/v0/b/marbellinder.appspot.com/o/marta.webp?alt=media&token=0ba2e706-c61d-441d-9f63-9b78ca62751c",
+      "isMatch": true
+    }
+  ]
+}
